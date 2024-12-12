@@ -1,46 +1,26 @@
-import wifi
-import os
-import socketpool
-import adafruit_minimqtt.adafruit_minimqtt as MQTT
+import mqtt
+import capture_image as image
 import time
 
-# Based on https://learn.adafruit.com/mqtt-in-circuitpython/circuitpython-wifi-usage
+# Circuitpython executes this file automatically at startup
 
-chunkSize = 1024
-pool = socketpool.SocketPool(wifi.radio)
+def main():
+    # Need to enter manually, phone wifi assigns new IP everytime it's started
+    mqtt.connect_broker("192.168.187.236")
+    
+    while True:
+        # Send messages as fast as possible, linearly
+        image.capture_image()
+        
+        # ML thing here i guess
+        # get the %detection from ML
+        # or just send the image to mqtt if ML on laptop
+        
+        message = "Person detection confidence: 69%"
+        # Send the current image
+        mqtt.send_image("photobin.txt")
+        mqtt.send_message(message)
+        time.sleep(1)
 
-
-def sendImage(pathToImage):
-    # Image has to be sent in chunks, probably library limitation, only 2kb file worked during testing
-    # Calculate the number of chunks needed for a given file
-    imageSize = os.stat(pathToImage)[6]
-    mqtt_client.publish("imageSize", imageSize)
-    mqtt_client.publish("text", "amogus")
-
-    numberOfChunks = int(imageSize / chunkSize + 1)
-
-    # Send number of chunks to tell JavaScript how many chunks are coming
-    mqtt_client.publish("chunkSize", numberOfChunks)
-
-    with open(pathToImage, "rb") as file:
-        chunk = file.read(chunkSize)
-        while chunk:
-            b = bytes(chunk)
-            mqtt_client.publish("images", b)
-            chunk = file.read(chunkSize)
-
-    print(f"Image sent as {numberOfChunks} chunks")
-
-
-mqtt_client = MQTT.MQTT(
-    # Broker IP has to be set every time the network is reset
-    broker="",
-    port=1883,
-    socket_pool=pool,
-)
-
-mqtt_client.connect()
-
-print("Connected to MQTT broker.")
-
-sendImage("GeZTI9XW0AAL3OY.jpg")
+if __name__ == "__main__":
+    main()

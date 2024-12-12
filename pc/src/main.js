@@ -1,25 +1,20 @@
 import mqtt from 'mqtt'
 
-const client = mqtt.connect('ws://localhost:9001')
+const client = mqtt.connect('ws://localhost:9001');
+client.options.username = 'picoW';
+client.options.password = 'picoW';
 
 const renderImage = () => {
-    console.log(imageChunks);
     const binaryData = new Uint8Array(imageChunks.reduce((acc, chunk) => acc.concat(Array.from(chunk)), []));
     // Blob contains extra data at the end, so we need to trim it to the actual image size
-    console.log(imageSize);
     let base64String = '';
     for (let i = 0; i < binaryData.length; i++) {
         base64String += String.fromCharCode(binaryData[i]);
     }
 
-    // Convert the binary data to Base64
-    base64String = btoa(base64String.slice(0, imageSize));  // Trim to the correct image size if needed
+    base64String = btoa(base64String.slice(0, imageSize));
 
     document.getElementById('image').src = 'data:image/jpeg;base64,' + base64String + `#${new Date().getTime()}`;
-
-    numberOfChunks = 0;
-    imageChunks = [];
-    imageSize = 0;
 }
 
 let numberOfChunks = 0;

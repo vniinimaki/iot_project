@@ -1,0 +1,47 @@
+:root {
+    font-family: Arial, sans-serif;
+    background-color: slategrey;
+    color: white;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+}
+
+#app {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+}
+
+#messages {
+    display: flex;
+    align-items: baseline;
+    flex-direction: column;
+}
+
+#images {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+p,
+img {
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid white;
+    padding: 8px;
+    margin: 4px;
+    list-style-type: none;
+    font-size: large;
+}
+
+p:hover {
+    background-color: lightgray;
+    transition: 0.2s;
+    color: black;
+}

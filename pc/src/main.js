@@ -11,7 +11,6 @@ client.on('connect', () => {
     console.log('Connected to MQTT broker')
     client.subscribe('temperature');
     client.subscribe('pressure');
-    client.subscribe('humidity');
 });
 
 client.on('message', (topic, message) => {

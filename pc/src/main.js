@@ -11,16 +11,21 @@ client.on('connect', () => {
     console.log('Connected to MQTT broker')
     client.subscribe('temperature');
     client.subscribe('pressure');
+    client.subscribe('humidity');
 });
 
 client.on('message', (topic, message) => {
     const messageString = message.toString();
     if (topic === 'temperature') {
-        console.log('Received temperature:', messageString);
+
         document.getElementById('temperature').textContent = messageString;
 
     } else if (topic === 'pressure') {
-        console.log('Received pressure:', messageString);
+
         document.getElementById('pressure').textContent = messageString;
+
+    } else if (topic === 'humidity') {
+
+        document.getElementById('humidity').textContent = messageString;
     }
 });

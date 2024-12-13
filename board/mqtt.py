@@ -17,6 +17,7 @@ def connect_broker(ip_address):
         port=1883,
         username="picoW",
         password="picoW",
+        recv_timeout=10,
         socket_pool=pool
     )
     
@@ -27,4 +28,3 @@ def connect_broker(ip_address):
 def send_message(topic, message):
     global mqtt_client
     mqtt_client.publish(topic, message)
-    print(f"Sent: {message}")

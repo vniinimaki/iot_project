@@ -5,18 +5,15 @@ from ulab import numpy
 from displayio import Bitmap
 import time
 
-def capture_image():
+i2c = None
+cam = None
 
-
-    debug = 1
-    """
-    Captures an image using the OV7670 camera and prints the image data to serial output and writes it to a binary file
-    """
+def init_camera():
     # Initialize I2C bus
-    i2c = busio.I2C(scl=board.GP9, sda=board.GP8)
+    global i2c = busio.I2C(scl=board.GP9, sda=board.GP8)
 
     # Initialize the OV7670 camera
-    cam = OV7670(
+    global cam = OV7670(
         i2c,
         data_pins=[
             board.GP12, board.GP13, board.GP14, board.GP15,
@@ -30,13 +27,18 @@ def capture_image():
         reset=board.GP10,
     )
 
+def capture_image():
+    """
+    Captures an image using the OV7670 camera and prints the image data to serial output and writes it to a binary file
+    """
+
     # Set camera resolution
-    cam.size = OV7670_SIZE_DIV4
+    global cam.size = OV7670_SIZE_DIV4
 
     # Create a buffer to store the captured image
     buf = bytearray(4 * cam.width * cam.height)
     # Capture an image
-    cam.capture(buf)
+    global cam.capture(buf)
     try:
         with open("photobin.txt", "wb") as photo:
             temp = buf

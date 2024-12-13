@@ -11,7 +11,7 @@ h1 {
 
 #app {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
     flex-direction: row;
 }
@@ -22,14 +22,7 @@ h1 {
     flex-direction: column;
 }
 
-#images {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
-p,
-img {
+p {
     display: flex;
     justify-content: center;
     border-radius: 8px;

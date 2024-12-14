@@ -3,20 +3,19 @@
 
 <head>
   <title>MQTT</title>
+  <meta charset="utf-8">
 </head>
 <link rel="stylesheet" href="./src/index.css">
 
 <body>
-  <h1>Weather</h1>
+  <div id="header">
+    <h1 id="time"></h1>
+  </div>
+  <hr width="100%" size="2" color="whitesmoke">
   <div id="app">
-    <div>
-      <h2>Temperature</h2>
-      <p id="temperature"></p>
-    </div>
-    <div>
-      <h2>Pressure</h2>
-      <p id="pressure"></p>
-    </div>
+    <p id="altitude">--</p>
+    <p id="temperature">--</p>
+    <p id="pressure">--</p>
   </div>
   <script type="module" src="/src/main.js"></script>
 </body>

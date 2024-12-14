@@ -1,40 +1,48 @@
 :root {
-    font-family: Arial, sans-serif;
+    font-family: monospace;
     background-color: slategrey;
-    color: white;
+    color: whitesmoke;
 }
 
-h1 {
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#header {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: 8px;
 }
 
 #app {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     flex-direction: row;
-}
-
-#messages {
-    display: flex;
-    align-items: baseline;
-    flex-direction: column;
+    text-align: center;
 }
 
 p {
     display: flex;
     justify-content: center;
+    align-items: center;
     border-radius: 8px;
-    border: 1px solid white;
-    padding: 8px;
-    margin: 4px;
-    list-style-type: none;
-    font-size: large;
+    border: 2px solid whitesmoke;
+    margin: 32px;
+    width: 256px;
+    height: 256px;
+    font-size: 32px;
+    cursor: pointer;
+    background-color: lightslategray;
+    transition: 0.2s;
 }
 
 p:hover {
-    background-color: lightgray;
-    transition: 0.2s;
-    color: black;
+    background-color: darkslategray;
+    font-size: 36px;
+    box-shadow: 4px 4px 8px 0px darkslategray;
+    transform: translate(0, -3px);
 }

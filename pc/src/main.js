@@ -4,27 +4,43 @@ const client = mqtt.connect('ws://localhost:9001');
 client.options.username = 'picoW';
 client.options.password = 'picoW';
 
-// mosquitto version 1.6.9 works with websockets, newest does not. Best to use this one if you want to test it.
-// mosquitto config file probably needs to be changed to allow websockets
+// mosquitto version 1.6.9 works with websockets, newest does not.
 
 client.on('connect', () => {
     console.log('Connected to MQTT broker')
-    client.subscribe('temperature');
-    client.subscribe('pressure');
+    client.subscribe(['temperature', 'pressure', 'altitude']);
 });
 
 client.on('message', (topic, message) => {
-    const messageString = message.toString();
-    if (topic === 'temperature') {
+    let messageFloat = parseFloat(message.toString()).toFixed(1);
+    let messageString;
 
-        document.getElementById('temperature').textContent = messageString;
+    switch (topic) {
+        case 'temperature':
+            messageString = messageFloat + '°C';
 
-    } else if (topic === 'pressure') {
+            if (messageFloat >= 24) {
+                document.getElementById(topic).style.color = 'orange';
+            } else if (messageFloat < 20) {
+                document.getElementById(topic).style.color = 'lightblue';
 
-        document.getElementById('pressure').textContent = messageString;
+            } else { document.getElementById(topic).style.color = 'whitesmoke'; }
 
-    } else if (topic === 'humidity') {
+            break;
 
-        document.getElementById('humidity').textContent = messageString;
+        case 'pressure':
+            messageString = messageFloat + ' hPa';
+            break;
+
+        case 'altitude':
+            messageString = messageFloat + ' m';
+            break;
     }
+
+    document.getElementById(topic).textContent = messageString;
 });
+
+document.getElementById('time').innerText = new Date().toLocaleTimeString();
+setInterval(() => {
+    document.getElementById('time').innerText = new Date().toLocaleTimeString();
+}, 1000);

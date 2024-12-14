@@ -18,7 +18,7 @@ def connect_broker(ip_address):
         username="picoW",
         password="picoW",
         recv_timeout=10,
-        socket_pool=pool
+        socket_pool=pool,
     )
     
     print(f"Attempting to connect to {ip_address}")

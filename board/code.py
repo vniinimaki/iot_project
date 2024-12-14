@@ -2,14 +2,15 @@ import mqtt
 import time
 import sensor
 import wifi
+import os
 
 # Circuitpython executes this file automatically at startup
 
 def main():
+    wifi.radio.connect(os.getenv("CIRCUITPY_WIFI_SSID"), os.getenv("CIRCUITPY_WIFI_PASSWORD"))
     sensor.init_sensor()
-    # Enter IP manually
     mqtt.connect_broker("192.168.187.58")
-    
+        
     while True:
         mqtt.send_message("temperature", sensor.read_temp())
         mqtt.send_message("pressure", sensor.read_pressure())

@@ -7,8 +7,8 @@ import wifi
 
 def main():
     sensor.init_sensor()
-    # Need to enter manually, phone wifi assigns new IP everytime it's started
-    mqtt.connect_broker("192.168.1.91")
+    # Enter IP manually
+    mqtt.connect_broker("192.168.187.58")
     
     while True:
         mqtt.send_message("temperature", sensor.read_temp())

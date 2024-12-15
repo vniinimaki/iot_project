@@ -11,11 +11,30 @@
   <div id="header">
     <h1 id="time"></h1>
   </div>
-  <hr width="100%" size="2" color="whitesmoke">
+  <hr width="50%" size="2" color="whitesmoke">
   <div id="app">
-    <p id="altitude">--</p>
-    <p id="temperature">--</p>
-    <p id="pressure">--</p>
+    <!--Could be done more dynamically, but it is what it is-->
+    <div class="altitude">
+      <p id="altitude-max" style="color: orange;">--</p>
+      <hr width="70%" size="2" color="whitesmoke">
+      <p id="altitude">--</p>
+      <hr width="70%" size="2" color="whitesmoke">
+      <p id="altitude-min" style="color: lightblue;">--</p>
+    </div>
+    <div class="temperature">
+      <p id="temperature-max" style="color: orange;">--</p>
+      <hr width="70%" size="2" color="whitesmoke">
+      <p id="temperature">--</p>
+      <hr width="70%" size="2" color="whitesmoke">
+      <p id="temperature-min" style="color: lightblue;">--</p>
+    </div>
+    <div class="pressure">
+      <p id="pressure-max" style="color: orange;">--</p>
+      <hr width="70%" size="2" color="whitesmoke">
+      <p id="pressure">--</p>
+      <hr width="70%" size="2" color="whitesmoke">
+      <p id="pressure-min" style="color: lightblue;">--</p>
+    </div>
   </div>
   <script type="module" src="/src/main.js"></script>
 </body>

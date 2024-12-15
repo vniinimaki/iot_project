@@ -13,9 +13,11 @@ def main():
         
     while True:
         mqtt.send_message("temperature", sensor.read_temp())
+        time.sleep(0.3)
         mqtt.send_message("pressure", sensor.read_pressure())
+        time.sleep(0.3)
         mqtt.send_message("altitude", sensor.read_altitude())
-        time.sleep(1)
+        time.sleep(0.3)
 
 if __name__ == "__main__":
     main()

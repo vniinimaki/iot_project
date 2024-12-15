@@ -12,7 +12,7 @@ def init_sensor():
     i2c = busio.I2C(board.GP1, board.GP0) # SCL, SDA
     
     bmp280 = adafruit_bmp280.Adafruit_BMP280_I2C(i2c, address=0x76)
-    bmp280.sea_level_pressure = 1004.4 
+    bmp280.sea_level_pressure = 1001.9 
     
     print("Sensor initialized")
     

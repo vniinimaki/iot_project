@@ -1,6 +1,6 @@
 :root {
     font-family: monospace;
-    background-color: slategrey;
+    background-color: lightslategrey;
     color: whitesmoke;
 }
 
@@ -21,7 +21,15 @@
 }
 
 p {
+    padding: 0;
+    margin: 0;
+}
+
+.altitude,
+.temperature,
+.pressure {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
@@ -31,13 +39,23 @@ p {
     height: 256px;
     font-size: 32px;
     cursor: pointer;
-    background-color: lightslategray;
-    transition: 0.2s;
+    background-color: slategray;
+    transition: all 0.2s;
 }
 
-p:hover {
+hr {
+    transition: all 0.2s;
+}
+
+.altitude:hover,
+.temperature:hover,
+.pressure:hover {
     background-color: darkslategray;
     font-size: 36px;
     box-shadow: 4px 4px 8px 0px darkslategray;
-    transform: translate(0, -3px);
+
+    hr {
+        width: 80%;
+        transition: all 0.2s;
+    }
 }

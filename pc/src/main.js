@@ -14,8 +14,8 @@ client.on('connect', () => {
 });
 
 client.on('message', (topic, message) => {
-    let messageCrypt = message
-    let messageFloat = parseFloat(message.toString()).toFixed(1);
+    let messageCrypt = message.toString()
+    let messageFloat = parseFloat(messageCrypt.toString()).toFixed(1);
     let messageString;
 
     switch (topic) {

@@ -8,6 +8,19 @@ client.options.password = 'picoW';
 
 let tempMin, tempMax, pressureMin, pressureMax, altitudeMin, altitudeMax;
 
+let lastMessage = 0;
+let previousMessage = 0;
+let latencies = [];
+
+const measureLatency = () => {
+    previousMessage = lastMessage;
+    lastMessage = new Date().getTime();
+    latencies.push(lastMessage - previousMessage);
+    if (latencies.length > 50) {
+        latencies.shift();
+    }
+}
+
 client.on('connect', () => {
     console.log('Connected to MQTT broker')
     client.subscribe(['temperature', 'pressure', 'altitude']);
@@ -15,12 +28,16 @@ client.on('connect', () => {
 
 client.on('message', (topic, message) => {
     let messageCrypt = message.toString()
-    let messageFloat = parseFloat(messageCrypt.toString()).toFixed(1);
+    // toFixed returns a string, because JavaScript, so we need to parse it to a float again for the comparasions to work
+    let messageFloat = parseFloat(parseFloat(messageCrypt.toString()).toFixed(1));
     let messageString;
 
     switch (topic) {
         // Set default values for min and max
         case 'temperature':
+            // log the time it takes between messages
+            measureLatency()
+
             if (tempMin === undefined) {
                 tempMin = tempMax = messageFloat;
             }
@@ -35,13 +52,16 @@ client.on('message', (topic, message) => {
             break;
 
         case 'pressure':
+            // log the time it takes between messages
+            measureLatency()
+
             // Set default values for min and max
             if (pressureMin === undefined) {
                 pressureMin = pressureMax = messageFloat;
             }
 
-            pressureMax = (messageFloat - 1000 > pressureMax - 1000) ? messageFloat : pressureMax;
-            pressureMin = (messageFloat - 1000 < pressureMin - 1000) ? messageFloat : pressureMin;
+            pressureMax = (messageFloat > pressureMax) ? messageFloat : pressureMax;
+            pressureMin = (messageFloat < pressureMin) ? messageFloat : pressureMin;
 
             document.getElementById('pressure-min').textContent = pressureMin + ' hPa';
             document.getElementById('pressure-max').textContent = pressureMax + ' hPa';
@@ -50,6 +70,9 @@ client.on('message', (topic, message) => {
             break;
 
         case 'altitude':
+            // log the time it takes between messages
+            measureLatency()
+
             // Set default values for min and max
             if (altitudeMin === undefined) {
                 altitudeMin = altitudeMax = messageFloat;
@@ -71,4 +94,5 @@ client.on('message', (topic, message) => {
 document.getElementById('time').textContent = new Date().toLocaleTimeString();
 setInterval(() => {
     document.getElementById('time').textContent = new Date().toLocaleTimeString();
+    document.getElementById("last").textContent = 'Average latency: ' + (latencies.reduce((a, b) => a + b, 0) / latencies.length).toFixed(2) + ' ms'
 }, 1000);

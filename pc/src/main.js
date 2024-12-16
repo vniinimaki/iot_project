@@ -1,4 +1,5 @@
 import mqtt from 'mqtt'
+import aesjs from 'aes-js'
 
 const client = mqtt.connect('ws://localhost:9001');
 client.options.username = 'picoW';
@@ -11,6 +12,8 @@ let tempMin, tempMax, pressureMin, pressureMax, altitudeMin, altitudeMax;
 let lastMessage = 0;
 let previousMessage = 0;
 let latencies = [];
+const key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6];
+const aesEcb = new aesjs.ModeOfOperation.ecb(key);
 
 const measureLatency = () => {
     previousMessage = lastMessage;
@@ -27,7 +30,9 @@ client.on('connect', () => {
 });
 
 client.on('message', (topic, message) => {
-    let messageCrypt = message.toString()
+    let decryptedBytes = aesEcb.decrypt(message);
+    let messageCrypt = aesjs.utils.utf8.fromBytes(decryptedBytes);
+
     // toFixed returns a string, because JavaScript, so we need to parse it to a float again for the comparasions to work
     let messageFloat = parseFloat(parseFloat(messageCrypt.toString()).toFixed(1));
     let messageString;
@@ -91,8 +96,6 @@ client.on('message', (topic, message) => {
     document.getElementById(topic).textContent = messageString;
 });
 
-document.getElementById('time').textContent = new Date().toLocaleTimeString();
 setInterval(() => {
-    document.getElementById('time').textContent = new Date().toLocaleTimeString();
     document.getElementById("last").textContent = 'Average latency: ' + (latencies.reduce((a, b) => a + b, 0) / latencies.length).toFixed(2) + ' ms'
 }, 1000);

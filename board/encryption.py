@@ -18,3 +18,7 @@ def encrypt_message(message):
         print(outp2)
     return bytes(outp)
 
+def pad_to(message, size):
+    len_diff = size - len(message)
+    message += "\0" *len_diff
+    return message

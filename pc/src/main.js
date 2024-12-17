@@ -19,7 +19,7 @@ const measureLatency = () => {
     previousMessage = lastMessage;
     lastMessage = new Date().getTime();
     latencies.push(lastMessage - previousMessage);
-    if (latencies.length > 50) {
+    if (latencies.length > 128) {
         latencies.shift();
     }
 }
@@ -35,6 +35,9 @@ client.on('message', (topic, message) => {
 
     // toFixed returns a string, because JavaScript, so we need to parse it to a float again for the comparasions to work
     let messageFloat = parseFloat(parseFloat(messageCrypt.toString()).toFixed(1));
+
+    // For testing with unencrypted messages
+    // let messageFloat = parseFloat(parseFloat(message.toString()).toFixed(1));
     let messageString;
 
     switch (topic) {
